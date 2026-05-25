@@ -11,11 +11,12 @@
     <div class="container header-inner">
       <a class="brand" href="#home">Balaji Beri</a>
       <nav class="nav-links">
-        <a href="#about">About</a>
-        <a href="#tools">Skills</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <a class="eyebrow" href="#about">About</a>
+        <a class="eyebrow" href="#tools">Skills</a>
+        <a class="eyebrow" href="#experience">Experience</a>
+        <a class="eyebrow" href="#projects">Projects</a>
+        <a class="eyebrow" href="#contact">Contact</a>
+        <a class="eyebrow" href="mailto:balajiberi13@gmail.com" class="email-link"> Hire Me </a>
       </nav>
     </div>
   </header>
@@ -50,18 +51,6 @@
         </div>
 
         <div class="hero-visual">
-          <div class="visual-card visual-card-1">
-            <span>Azure</span>
-          </div>
-          <div class="visual-card visual-card-2">
-            <span>Databricks</span>
-          </div>
-          <div class="visual-card visual-card-3">
-            <span>SQL</span>
-          </div>
-          <div class="visual-card visual-card-4">
-            <span>Python</span>
-          </div>
         </div>
       </div>
     </section>
@@ -72,6 +61,26 @@
         <p>Data Engineer with 2.5+ years of experience building and maintaining ETL/ELT data pipelines, optimiz
 ing SQL queries, and ensuring data quality, monitoring, and troubleshooting. Experienced in Azure Data
 Factory (ADF), Python, ADLS Gen2, Databricks (PySpark), and data warehousing concepts.</p>
+      </div>
+    </section>
+
+    <section id="websites" class="section websites">
+      <div class="container">
+        <h2>Websites</h2>
+        <div class="website-grid">
+          <a class="website-card" href="https://github.com/Balajiberi13" target="_blank" rel="noreferrer">
+            <span class="website-icon">🐙</span>
+            <h3>GitHub</h3>
+          </a>
+          <a class="website-card" href="https://www.linkedin.com/in/balaji-beri-00a291217/" target="_blank" rel="noreferrer">
+            <span class="website-icon">💼</span>
+            <h3>LinkedIn</h3>
+          </a>
+          <a class="website-card" href="https://leetcode.com/u/Balaji_Beri/" target="_blank" rel="noreferrer">
+            <span class="website-icon">💻</span>
+            <h3>LeetCode</h3>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -156,6 +165,62 @@ Factory (ADF), Python, ADLS Gen2, Databricks (PySpark), and data warehousing con
       </div>
     </section>
 
+    <section id="certifications" class="section certifications">
+      <div class="container">
+        <h2>Certifications</h2>
+        <div class="cert-grid">
+          <article class="cert-card">
+            <h3>Microsoft Fabric Data Engineer Associate (DP-700)</h3>
+          </article>
+          <article class="cert-card">
+            <h3>Microsoft Fabric Analytics Engineer Associate (DP-600)</h3>
+          </article>
+          <article class="cert-card">
+            <h3>Microsoft Azure Data Fundamentals (DP-900)</h3>
+          </article>
+          <article class="cert-card">
+            <h3>Microsoft Azure Fundamentals (AZ-900)</h3>
+          </article>
+          <article class="cert-card">
+            <h3>SQL (Advanced)– HackerRank</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section skills-carousel">
+      <div class="container">
+        <h2>Tech Stack</h2>
+        <div class="carousel-wrapper">
+          <div class="carousel-track">
+            <div class="carousel-item">Azure</div>
+            <div class="carousel-item">Databricks</div>
+            <div class="carousel-item">PySpark</div>
+            <div class="carousel-item">Python</div>
+            <div class="carousel-item">SQL</div>
+            <div class="carousel-item">ADF</div>
+            <div class="carousel-item">Synapse</div>
+            <div class="carousel-item">ADLS Gen2</div>
+            <div class="carousel-item">Delta Lake</div>
+            <div class="carousel-item">ETL/ELT</div>
+            <div class="carousel-item">Azure DevOps</div>
+            <div class="carousel-item">CI/CD</div>
+            <!-- Duplicated for seamless loop -->
+            <div class="carousel-item">Azure</div>
+            <div class="carousel-item">Databricks</div>
+            <div class="carousel-item">PySpark</div>
+            <div class="carousel-item">Python</div>
+            <div class="carousel-item">SQL</div>
+            <div class="carousel-item">ADF</div>
+            <div class="carousel-item">Synapse</div>
+            <div class="carousel-item">ADLS Gen2</div>
+            <div class="carousel-item">Delta Lake</div>
+            <div class="carousel-item">ETL/ELT</div>
+            <div class="carousel-item">Azure DevOps</div>
+            <div class="carousel-item">CI/CD</div>
+          </div>
+        </div>
+      </div>
+    </section>
     <section id="experience" class="section experience">
       <div class="container">
         <h2>Experience</h2>
@@ -226,7 +291,7 @@ Factory (ADF), Python, ADLS Gen2, Databricks (PySpark), and data warehousing con
             <li>Built a scalable end-to-end data pipeline on Microsoft Fabric using Data Factory, Synapse (Spark), and Lakehouse, processing 1M+ news records/day with incremental ingestion, reducing data latency by 60% compared to full reloads.</li>
             <li>Applied sentiment analysis using Synapse Data Science and text analytics ML models to derive insights from unstructured news data.</li>
             <li>Delivered production-grade analytics via Power BI dashboards, pipeline orchestration, monitoring, and alerts, cutting pipeline failures by 30% and optimizing compute usage to achieve 25% cost savings.</li>
-
+          </article>
         </div>
       </div>
     </section>
@@ -234,29 +299,28 @@ Factory (ADF), Python, ADLS Gen2, Databricks (PySpark), and data warehousing con
     <section id="contact" class="section contact">
       <div class="container">
         <h2>Contact</h2>
-        <p>Ready to collaborate on your next cloud data platform? Send a message and let's build an analytics-ready pipeline.</p>
-        <form class="contact-form">
-          <label>
-            Name
-            <input type="text" placeholder="Your name" />
-          </label>
-          <label>
-            Email
-            <input type="email" placeholder="you@example.com" />
-          </label>
-          <label>
-            Message
-            <textarea rows="4" placeholder="Tell me about your project"></textarea>
-          </label>
-          <button type="submit">Send message</button>
-        </form>
+        <p>Ready to collaborate on your next cloud data platform? Let's connect!</p>
+        <div class="contact-links">
+          <div class="contact-item">
+            <span class="contact-icon">📱</span>
+            <p><strong>Phone:</strong> <a href="tel:+917032581740">+91 7032581740</a></p>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">💼</span>
+            <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/balaji-beri-00a291217/" target="_blank" rel="noreferrer">balaji-beri</a></p>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📧</span>
+            <p><strong>Email:</strong> <a href="mailto:balajiberi13@gmail.com">balajiberi13@gmail.com</a></p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>© 2026 Cloud Data Engineering Portfolio</p>
+      <p class="eyebrow">Open for opportunities!</p>
     </div>
   </footer>
 
