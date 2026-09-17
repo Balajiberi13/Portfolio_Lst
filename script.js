@@ -63,41 +63,98 @@ document.querySelector('.contact-form')?.addEventListener('submit', (event) => {
     const closeBtn = document.getElementById('resumeClose');
     const iframe = document.getElementById('resumeIframe');
     const downloadLink = document.getElementById('resumeDownload');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.querySelector('.nav-links');
 
-    if (!resumeBtn || !modal || !iframe) return;
+    // Resume modal behavior (only wire if elements exist)
+    if (resumeBtn && modal && iframe) {
+      function openModal() {
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        if (downloadLink) downloadLink.hidden = true;
 
-    function openModal() {
-      modal.hidden = false;
-      document.body.style.overflow = 'hidden';
-      if (downloadLink) downloadLink.hidden = true;
+        const url = 'assets/resume.pdf';
+        const viewer = modal.querySelector('.resume-modal__viewer');
+        const existingFallback = modal.querySelector('.resume-modal__fallback');
+        if (existingFallback) existingFallback.remove();
 
-      const url = 'assets/resume.pdf';
-      const viewer = modal.querySelector('.resume-modal__viewer');
-      const existingFallback = modal.querySelector('.resume-modal__fallback');
-      if (existingFallback) existingFallback.remove();
-
-      // Try to set iframe src; on file:// fetch checks may fail, so always set src and
-      // rely on iframe load/error events to show fallback or download link.
-      try { iframe.src = url; } catch (e) { /* still show modal; iframe may fail */ }
-    }
-
-    function closeModal() {
-      modal.hidden = true;
-      document.body.style.overflow = '';
-      // clear src to stop PDF loading / audio
-      iframe.src = '';
-    }
-
-    // Allow Ctrl/Meta/middle-clicks to open the raw PDF (default browser behavior).
-    resumeBtn.addEventListener('click', (e) => {
-      const isModifier = e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1;
-      if (isModifier) {
-        // Allow default navigation (open in new tab or download) for modifier clicks
-        return;
+        try { iframe.src = url; } catch (e) { /* still show modal; iframe may fail */ }
       }
-      e.preventDefault();
-      openModal();
-    });
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        iframe.src = '';
+      }
+
+      resumeBtn.addEventListener('click', (e) => {
+        const isModifier = e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1;
+        if (isModifier) return; // allow default behavior for modifier clicks
+        e.preventDefault();
+        openModal();
+      });
+
+      closeBtn?.addEventListener('click', closeModal);
+      overlay?.addEventListener('click', closeModal);
+
+      iframe.addEventListener('load', () => {
+        const existingFallback = modal.querySelector('.resume-modal__fallback');
+        if (existingFallback) existingFallback.remove();
+        if (downloadLink) downloadLink.hidden = false;
+      });
+
+      iframe.addEventListener('error', () => {
+        const viewer = modal.querySelector('.resume-modal__viewer');
+        const existingFallback = modal.querySelector('.resume-modal__fallback');
+        if (existingFallback) return;
+        if (downloadLink) downloadLink.hidden = true;
+        const fallback = document.createElement('div');
+        fallback.className = 'resume-modal__fallback';
+        fallback.textContent = 'Unable to preview the resume. Try opening it in a new tab or placing assets/resume.pdf in the project.';
+        viewer.appendChild(fallback);
+      });
+    }
+
+    // Mobile nav toggle (always wire if present)
+    if (navToggle && navLinks) {
+      let navOverlayEl = null;
+      function showNavOverlay() {
+        if (navOverlayEl) return;
+        navOverlayEl = document.createElement('div');
+        navOverlayEl.className = 'nav-overlay';
+        document.body.appendChild(navOverlayEl);
+        navOverlayEl.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+          removeNavOverlay();
+        });
+      }
+      function removeNavOverlay() {
+        if (!navOverlayEl) return;
+        navOverlayEl.remove();
+        navOverlayEl = null;
+      }
+
+      navToggle.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        navLinks.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (open) {
+          showNavOverlay();
+        } else {
+          removeNavOverlay();
+        }
+      });
+
+      // Close nav when clicking a link
+      navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        if (navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+          removeNavOverlay();
+        }
+      }));
+    }
     closeBtn?.addEventListener('click', closeModal);
     overlay?.addEventListener('click', closeModal);
 

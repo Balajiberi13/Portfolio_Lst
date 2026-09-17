@@ -80,6 +80,18 @@ body::before {
   flex-wrap: wrap;
 }
 
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(148,163,184,0.08);
+  color: #cbd5e1;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
 .nav-links a {
   text-decoration: none;
   color: #94a3b8;
@@ -784,6 +796,28 @@ body::before {
   }
 }
 
+/* Ensure mobile sidebar behavior triggers on slightly larger viewports too */
+@media (max-width: 1024px) {
+  /* stronger rules with higher specificity to override other header styles */
+  .site-header .container .header-inner > .nav-links,
+  .header-inner > .nav-links {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1) !important;
+  }
+  .site-header .container .header-inner > .nav-links.open,
+  .header-inner > .nav-links.open {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+}
+
 @media (max-width: 720px) {
   .header-inner,
   .site-footer .container {
@@ -792,8 +826,98 @@ body::before {
   }
 
   .nav-links {
-    justify-content: center;
+    /* off-canvas sidebar for mobile - hidden by default */
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1), visibility 0s linear 260ms;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: rgba(6,12,34,0.98);
+    padding: 2.5rem 1rem 1.5rem 1rem;
+    border-radius: 0 12px 12px 0;
+    border: 1px solid rgba(148,163,184,0.04);
+    box-shadow: 8px 0 30px rgba(3,10,23,0.6);
+    z-index: 70;
+    visibility: hidden;
+    pointer-events: none;
   }
+
+  .nav-toggle {
+    display: inline-flex;
+    position: fixed;
+    left: 10px;
+    top: 12px;
+    transform: none;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    z-index: 90;
+    box-shadow: 0 8px 20px rgba(3,10,23,0.4);
+    backdrop-filter: blur(6px);
+  }
+
+  /* When mobile menu is open (reveal sidebar) */
+  .nav-links.open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  /* Ensure strict vertical stacking on small screens */
+  .header-inner .nav-links {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+    padding-top: 2.25rem !important;
+  }
+
+  .header-inner .nav-links > a {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+    white-space: normal !important;
+    box-sizing: border-box !important;
+  }
+
+  /* overlay behind sidebar */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2,6,23,0.45);
+    z-index: 65;
+    opacity: 1;
+    transition: opacity 200ms ease;
+  }
+
+  /* Menu item animation (staggered) - ensure vertical full-width items */
+  .nav-links > a {
+    display: block;
+    width: 100%;
+    color: #e2e8f0;
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: opacity 260ms ease, transform 260ms ease;
+    text-align: left;
+  }
+  .nav-links.open > a:nth-child(1) { transition-delay: 120ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(2) { transition-delay: 180ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(3) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(4) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(5) { transition-delay: 360ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(6) { transition-delay: 420ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(7) { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
+  .nav-links.open > a:nth-child(8) { transition-delay: 540ms; opacity: 1; transform: translateY(0); }
 }
 
 /* Resume preview modal styles */
