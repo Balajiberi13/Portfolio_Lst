@@ -54,6 +54,78 @@ document.querySelector('.contact-form')?.addEventListener('submit', (event) => {
   }
 })();
 
+// ------- Resume preview modal behavior -------
+(function(){
+  try {
+    const resumeBtn = document.getElementById('resumeBtn');
+    const modal = document.getElementById('resumeModal');
+    const overlay = modal?.querySelector('.resume-modal__overlay');
+    const closeBtn = document.getElementById('resumeClose');
+    const iframe = document.getElementById('resumeIframe');
+    const downloadLink = document.getElementById('resumeDownload');
+
+    if (!resumeBtn || !modal || !iframe) return;
+
+    function openModal() {
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      if (downloadLink) downloadLink.hidden = true;
+
+      const url = 'assets/resume.pdf';
+      const viewer = modal.querySelector('.resume-modal__viewer');
+      const existingFallback = modal.querySelector('.resume-modal__fallback');
+      if (existingFallback) existingFallback.remove();
+
+      // Try to set iframe src; on file:// fetch checks may fail, so always set src and
+      // rely on iframe load/error events to show fallback or download link.
+      try { iframe.src = url; } catch (e) { /* still show modal; iframe may fail */ }
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      // clear src to stop PDF loading / audio
+      iframe.src = '';
+    }
+
+    // Allow Ctrl/Meta/middle-clicks to open the raw PDF (default browser behavior).
+    resumeBtn.addEventListener('click', (e) => {
+      const isModifier = e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1;
+      if (isModifier) {
+        // Allow default navigation (open in new tab or download) for modifier clicks
+        return;
+      }
+      e.preventDefault();
+      openModal();
+    });
+    closeBtn?.addEventListener('click', closeModal);
+    overlay?.addEventListener('click', closeModal);
+
+    // When iframe finishes loading the PDF, show the download link
+    iframe.addEventListener('load', () => {
+      // remove any fallback message
+      const existingFallback = modal.querySelector('.resume-modal__fallback');
+      if (existingFallback) existingFallback.remove();
+      if (downloadLink) downloadLink.hidden = false;
+    });
+
+    // If iframe errors (file missing or cannot be displayed), show a friendly message
+    iframe.addEventListener('error', () => {
+      const viewer = modal.querySelector('.resume-modal__viewer');
+      const existingFallback = modal.querySelector('.resume-modal__fallback');
+      if (existingFallback) return;
+      if (downloadLink) downloadLink.hidden = true;
+      const fallback = document.createElement('div');
+      fallback.className = 'resume-modal__fallback';
+      fallback.textContent = 'Unable to preview the resume. Try opening it in a new tab or placing assets/resume.pdf in the project.';
+      viewer.appendChild(fallback);
+    });
+
+    // Allow Esc to close
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  } catch (e) { /* fail silently */ }
+})();
+
 // ------- Scroll reveal using IntersectionObserver -------
 (function(){
   try {

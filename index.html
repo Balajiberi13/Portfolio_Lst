@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Balaji Beri Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -16,7 +17,7 @@
         <a class="eyebrow" href="#experience">Experience</a>
         <a class="eyebrow" href="#projects">Projects</a>
         <a class="eyebrow" href="#contact">Contact</a>
-        <a class="eyebrow" href="mailto:balajiberi13@gmail.com" class="email-link"> Hire Me </a>
+        <a id="resumeBtn" class="eyebrow" href="assets/Balaji_resume.pdf">Resume</a>
       </nav>
     </div>
   </header>
@@ -38,7 +39,7 @@
 
         <div class="hero-visual">
           <div class="open-to-roles">
-            🟢 Open to Data Engineer - Data & AI Roles 
+            🟢 Open to Engineer - Data & AI Roles 
           </div>
           <div class="hero-stats">
             <div class="stat-card">
@@ -362,6 +363,20 @@ Factory (ADF), Python, ADLS Gen2, Databricks (PySpark), and data warehousing con
   </footer>
 
   <script src="script.js"></script>
+  <!-- Resume preview modal -->
+  <div id="resumeModal" class="resume-modal" hidden>
+    <div class="resume-modal__overlay" data-close></div>
+    <div class="resume-modal__content" role="dialog" aria-modal="true" aria-label="Resume preview">
+      <button id="resumeClose" class="resume-modal__close" aria-label="Close preview">✕</button>
+      <div class="resume-modal__viewer">
+        <iframe id="resumeIframe" src="" frameborder="0" title="Resume preview"></iframe>
+      </div>
+      <a id="resumeDownload" class="resume-download" href="assets/Balaji_resume.pdf" download hidden>
+        <span class="download-icon">⬇️</span>
+        <span class="download-text">Download Resume</span>
+      </a>
+    </div>
+  </div>
   <div id="customCursor" class="custom-cursor" aria-hidden="true"></div>
 </body>
 </html>

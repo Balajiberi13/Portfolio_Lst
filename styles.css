@@ -1,6 +1,6 @@
 :root {
   color-scheme: dark;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: Poppins, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: #e2e8f0;
@@ -787,5 +787,100 @@ body::before {
   .nav-links {
     justify-content: center;
   }
+}
+
+/* Resume preview modal styles */
+.resume-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 9998;
+}
+.resume-modal[hidden] { display: none !important; }
+.resume-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(2,6,23,0.6);
+  backdrop-filter: blur(6px);
+}
+.resume-modal__content {
+  position: relative;
+  width: min(1100px, 95%);
+  height: min(820px, 90%);
+  background: linear-gradient(180deg, rgba(6, 10, 28, 0.96), rgba(8,12,30,0.98));
+  border: 1px solid rgba(148,163,184,0.06);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 30px 80px rgba(2,6,23,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 9999;
+}
+.resume-modal__close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+.resume-modal__viewer {
+  flex: 1 1 auto;
+  min-height: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0b1220;
+  border: 1px solid rgba(148,163,184,0.04);
+}
+.resume-modal__viewer iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.resume-modal__fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #cbd5e1;
+  font-weight: 600;
+  padding: 1.5rem;
+  text-align: center;
+}
+.resume-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  background: rgba(30,62,255,0.12);
+  color: #e6f0ff;
+  text-decoration: none;
+  font-weight: 700;
+  width: fit-content;
+  margin-left: auto;
+}
+.resume-download .download-icon { font-size: 1.05rem; }
+
+@media (max-width: 720px) {
+  .resume-modal__content { padding: 0.5rem; height: 88vh; }
+}
+
+/* Ensure nav link hover/focus matches the header style for the resume anchor */
+.nav-links a.eyebrow {
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  transition: background 160ms ease, color 160ms ease, transform 120ms ease;
+}
+.nav-links a.eyebrow:hover,
+.nav-links a.eyebrow:focus {
+  background: rgba(148,163,184,0.06);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
