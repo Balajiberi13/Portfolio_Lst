@@ -115,45 +115,75 @@ document.querySelector('.contact-form')?.addEventListener('submit', (event) => {
       });
     }
 
-    // Mobile nav toggle (always wire if present)
+    // Mobile nav: create dynamic side-drawer to avoid CSS conflicts
     if (navToggle && navLinks) {
       let navOverlayEl = null;
-      function showNavOverlay() {
+      let navDrawerEl = null;
+
+      function createDrawer() {
+        if (navDrawerEl) return;
+        navDrawerEl = document.createElement('div');
+        navDrawerEl.className = 'side-drawer';
+        const list = document.createElement('div');
+        // clone links from original nav
+        const anchors = Array.from(navLinks.querySelectorAll('a'));
+        anchors.forEach((a, i) => {
+          const clone = a.cloneNode(true);
+          // ensure clicking closes drawer
+          clone.addEventListener('click', (e) => {
+            // if anchor hashes, allow default scroll; otherwise allow navigation
+            closeDrawer();
+          });
+          // stagger animation via inline style
+          clone.style.transitionDelay = (120 + i*60) + 'ms';
+          list.appendChild(clone);
+        });
+        navDrawerEl.appendChild(list);
+        document.body.appendChild(navDrawerEl);
+        // allow CSS animation frame then add open class
+        requestAnimationFrame(() => navDrawerEl.classList.add('open'));
+      }
+
+      function removeDrawer() {
+        if (!navDrawerEl) return;
+        navDrawerEl.classList.remove('open');
+        setTimeout(() => {
+          navDrawerEl?.remove();
+          navDrawerEl = null;
+        }, 260);
+      }
+
+      function showOverlay() {
         if (navOverlayEl) return;
         navOverlayEl = document.createElement('div');
         navOverlayEl.className = 'nav-overlay';
         document.body.appendChild(navOverlayEl);
         navOverlayEl.addEventListener('click', () => {
-          navLinks.classList.remove('open');
-          navToggle.setAttribute('aria-expanded', 'false');
-          removeNavOverlay();
+          closeDrawer();
         });
       }
-      function removeNavOverlay() {
+
+      function removeOverlay() {
         if (!navOverlayEl) return;
         navOverlayEl.remove();
         navOverlayEl = null;
       }
 
-      navToggle.addEventListener('click', () => {
-        const open = navLinks.classList.toggle('open');
-        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        navLinks.setAttribute('aria-hidden', open ? 'false' : 'true');
-        if (open) {
-          showNavOverlay();
-        } else {
-          removeNavOverlay();
-        }
-      });
+      function openDrawer() {
+        createDrawer();
+        showOverlay();
+        navToggle.setAttribute('aria-expanded', 'true');
+      }
 
-      // Close nav when clicking a link
-      navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        if (navLinks.classList.contains('open')) {
-          navLinks.classList.remove('open');
-          navToggle.setAttribute('aria-expanded', 'false');
-          removeNavOverlay();
-        }
-      }));
+      function closeDrawer() {
+        removeDrawer();
+        removeOverlay();
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+
+      navToggle.addEventListener('click', () => {
+        if (navDrawerEl) closeDrawer(); else openDrawer();
+      });
     }
     closeBtn?.addEventListener('click', closeModal);
     overlay?.addEventListener('click', closeModal);

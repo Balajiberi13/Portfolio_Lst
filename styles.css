@@ -798,23 +798,10 @@ body::before {
 
 /* Ensure mobile sidebar behavior triggers on slightly larger viewports too */
 @media (max-width: 1024px) {
-  /* stronger rules with higher specificity to override other header styles */
+  /* hide original header nav on narrow viewports to avoid horizontal layout */
   .site-header .container .header-inner > .nav-links,
   .header-inner > .nav-links {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 0.5rem !important;
-    transform: translateX(-100%) !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transition: transform 260ms cubic-bezier(.2,.9,.2,1) !important;
-  }
-  .site-header .container .header-inner > .nav-links.open,
-  .header-inner > .nav-links.open {
-    transform: translateX(0) !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
+    display: none !important;
   }
 }
 
@@ -886,6 +873,24 @@ body::before {
     white-space: normal !important;
     box-sizing: border-box !important;
   }
+
+  /* Side drawer inserted by JS */
+  .side-drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    background: rgba(6,12,34,0.98);
+    padding: 2.5rem 1rem 1.5rem 1rem;
+    box-shadow: 8px 0 30px rgba(3,10,23,0.6);
+    z-index: 200;
+    transform: translateX(-16px);
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1), opacity 200ms ease;
+    opacity: 0;
+  }
+  .side-drawer.open { transform: translateX(0); opacity: 1; }
+  .side-drawer a { display:block; padding:0.8rem 1rem; margin:0.25rem 0; color:#e2e8f0; border-radius:8px; text-decoration:none; }
 
   /* overlay behind sidebar */
   .nav-overlay {
